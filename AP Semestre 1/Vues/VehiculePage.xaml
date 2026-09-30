@@ -1,0 +1,55 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="AutoMasters.Vues.VehiculePage"
+             Title="Détails du véhicule">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="15" Padding="0,0,0,20">
+
+            <!-- Image en pleine largeur -->
+            <Image Source="{Binding Vehicule.ImageUrl}" HeightRequest="300" Aspect="AspectFill" />
+
+            <VerticalStackLayout Padding="20" Spacing="10">
+                <Label Text="{Binding Vehicule.Marque}" TextColor="{StaticResource MutedColor}" FontSize="18" TextTransform="Uppercase"/>
+                <Label Text="{Binding Vehicule.Modele}" FontSize="32" FontAttributes="Bold"/>
+
+                <!-- Rareté et Prix -->
+                <Grid ColumnDefinitions="*, *" Margin="0,10">
+                    <Label Grid.Column="0" Text="{Binding Vehicule.Rarete}" FontSize="18" TextColor="Gold" FontAttributes="Bold" VerticalOptions="Center"/>
+
+                    <!-- Le prix qui flashe grâce au BackgroundColor -->
+                    <Label Grid.Column="1" Text="{Binding Vehicule.Prix, StringFormat='{}{0:N0} €'}" 
+           FontSize="24" TextColor="#34d399" FontAttributes="Bold" 
+           HorizontalOptions="End" VerticalOptions="Center"
+           BackgroundColor="{Binding CouleurPrix}" Padding="5" />
+                </Grid>
+                <!-- Caractéristiques techniques -->
+                <Label Text="Spécifications" FontSize="20" FontAttributes="Bold" Margin="0,0,0,10"/>
+
+                <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="Auto,*" RowSpacing="10" ColumnSpacing="20">
+                    <Label Grid.Row="0" Grid.Column="0" Text="Moteur :" TextColor="Gray"/>
+                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding Vehicule.Motorisation}" FontAttributes="Bold"/>
+
+                    <Label Grid.Row="1" Grid.Column="0" Text="Puissance :" TextColor="Gray"/>
+                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding Vehicule.PuissanceCh, StringFormat='{0} ch'}" FontAttributes="Bold"/>
+
+                    <Label Grid.Row="2" Grid.Column="0" Text="Production :" TextColor="Gray"/>
+                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding Vehicule.Production, StringFormat='{0:N0} exemplaires'}" FontAttributes="Bold"/>
+                </Grid>
+
+                <Label Text="Description" FontSize="20" FontAttributes="Bold" Margin="0,20,0,10"/>
+                <Label Text="{Binding Vehicule.Description}" LineHeight="1.4" TextColor="#ccc"/>
+
+                <!-- Bouton Acheter -->
+                <Button Text="ACHETER IMMÉDIATEMENT" 
+                        Command="{Binding AcheterImmediatementCommand}" 
+                        BackgroundColor="#065f46" 
+                        TextColor="White" 
+                        CornerRadius="10" 
+                        HeightRequest="55" 
+                        Margin="0,30,0,0"
+                        FontAttributes="Bold"/>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

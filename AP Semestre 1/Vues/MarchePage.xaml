@@ -1,0 +1,9 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="AutoMasters.Vues.MarchePage">
+<VerticalStackLayout Padding="15">
+<CollectionView ItemsSource="{Binding Encheres}"><CollectionView.ItemTemplate><DataTemplate>
+<Border Padding="12" Margin="0,7" BackgroundColor="{StaticResource CardColor}" StrokeThickness="0"><Grid ColumnDefinitions="110,*">
+<Image Source="{Binding Carte.Vehicule.ImageUrl}" HeightRequest="100" WidthRequest="100"/>
+<VerticalStackLayout Grid.Column="1" Spacing="4"><Label Text="{Binding Carte.Vehicule.Marque}" TextColor="{StaticResource MutedColor}"/><Label Text="{Binding Carte.Vehicule.Modele}" FontSize="20" FontAttributes="Bold"/><Label Text="{Binding PrixActuel, StringFormat='{}{0:N0} €'}" FontSize="18"/><Button Text="ENCHÉRIR"/></VerticalStackLayout>
+</Grid></Border></DataTemplate></CollectionView.ItemTemplate></CollectionView>
+</VerticalStackLayout>
+</ContentPage>

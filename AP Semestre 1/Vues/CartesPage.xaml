@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:AutoMasters.VuesModeles"
+    xmlns:modeles="clr-namespace:AutoMasters.Modeles"
+    x:Class="AutoMasters.Vues.CartesPage"
+    x:DataType="vm:CartesVueModele"
+    Title="Mes cartes">
+    <Grid Padding="20" RowSpacing="12"
+          RowDefinitions="Auto,Auto,*,Auto,Auto">
+        <Button Text="Afficher mes cartes"
+                IsEnabled="{Binding EstDisponible}"
+                Command="{Binding ChargerCartesCommand}" />
+        <Label Grid.Row="1" Text="{Binding Message}" />
+        <CollectionView Grid.Row="2"
+            ItemsSource="{Binding CartesPossedees}"
+            SelectedItem="{Binding CarteSelectionnee}"
+            SelectionMode="Single"
+            IsEnabled="{Binding EstDisponible}">
+            <CollectionView.EmptyView>
+                <Label Text="Cliquez sur Afficher mes cartes pour charger votre collection." />
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate
+                    x:DataType="modeles:CartePossedee">
+                    <Border Margin="0,4" Padding="12">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="{Binding Carte.Marque}"
+                                   FontAttributes="Bold" />
+                            <Label Text="{Binding Carte.Modele}" />
+                            <Label Text="{Binding Carte.Variante}" />
+                            <Label Text="{Binding ValeurActuelle,
+                                StringFormat='Valeur : {0:F2} CRD'}" />
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button Grid.Row="3" Text="Gérer l'offre"
+                IsEnabled="{Binding EstDisponible}"
+                Command="{Binding GererOffreCommand}" />
+        <ActivityIndicator Grid.Row="4"
+            IsRunning="{Binding EstOccupe}"
+            IsVisible="{Binding EstOccupe}" />
+    </Grid>
+</ContentPage>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:AutoMasters.VuesModeles"
+    x:Class="AutoMasters.Vues.OffrePage"
+    x:DataType="vm:OffreVueModele"
+    Title="Mon offre">
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="12">
+            <Label Text="{Binding CartePossedee.Carte.Marque}"
+                   FontSize="22" FontAttributes="Bold" />
+            <Label Text="{Binding CartePossedee.Carte.Modele}" />
+            <Label Text="{Binding OffreCourante.Prix,
+                StringFormat='Prix enregistré : {0:F2} CRD'}" />
+            <Label Text="Cliquez d’abord sur Charger mon offre pour vérifier si une offre existe déjà." />
+            <VerticalStackLayout Spacing="10"
+                IsEnabled="{Binding EstDisponible}">
+                <Button Text="Charger mon offre"
+                        Command="{Binding ChargerOffreCommand}" />
+                <Entry Text="{Binding PrixSaisi}" Keyboard="Numeric"
+                       Placeholder="Prix de vente en CRD" />
+                <Button Text="Créer l'offre"
+                        Command="{Binding CreerOffreCommand}" />
+                <Button Text="Modifier le prix"
+                        Command="{Binding ModifierOffreCommand}" />
+                <Button Text="Supprimer l'offre"
+                        Command="{Binding SupprimerOffreCommand}" />
+            </VerticalStackLayout>
+            <ActivityIndicator
+                IsRunning="{Binding EstOccupe}"
+                IsVisible="{Binding EstOccupe}" />
+            <Label Text="{Binding Message}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

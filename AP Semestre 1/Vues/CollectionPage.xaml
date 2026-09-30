@@ -1,0 +1,125 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:AutoMasters.Converters"
+             x:Class="AutoMasters.Vues.CollectionPage"
+             BackgroundColor="#121212"
+             Title="Collection">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BoolToColorConverter x:Key="BoolToColorConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto, Auto, Auto, *">
+
+        <!-- 1. BARRE DE RECHERCHE INTELLIGENTE -->
+        <Border Grid.Row="0" BackgroundColor="#1e1e1e" StrokeThickness="0" HeightRequest="45" Margin="15,15,15,10">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="8" />
+            </Border.StrokeShape>
+            <Grid ColumnDefinitions="Auto, *">
+                <Label Grid.Column="0" Text="🔍" VerticalOptions="Center" Margin="15,0,5,0" />
+                <Entry Grid.Column="1" Text="{Binding TexteRecherche}" Placeholder="Rechercher une marque ou un modèle..." PlaceholderColor="#666666" TextColor="White" BackgroundColor="Transparent" />
+            </Grid>
+        </Border>
+
+        <!-- 2. BOUTONS DE FILTRES PAR RARETÉ -->
+        <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never" Margin="15,0,15,15">
+            <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+
+                <!-- Bouton TOUS -->
+                <Button Text="TOUS" Command="{Binding BasculerTousCommand}" 
+                        BackgroundColor="{Binding EstTousSelectionne, Converter={StaticResource BoolToColorConverter}}" 
+                        TextColor="White" FontSize="12" FontAttributes="Bold" HeightRequest="36" CornerRadius="6" Padding="12,0"/>
+
+                <!-- Bouton Légendaire (L - Rouge) -->
+                <Button Text="L" Command="{Binding BasculerFiltreCommand}" CommandParameter="L"
+                        BackgroundColor="{Binding EstLSelected, Converter={StaticResource BoolToColorConverter}}" 
+                        TextColor="#ef4444" FontSize="12" FontAttributes="Bold" HeightRequest="36" CornerRadius="6" Padding="12,0"/>
+
+                <!-- Bouton Ultra Rare (UR - Violet) -->
+                <Button Text="UR" Command="{Binding BasculerFiltreCommand}" CommandParameter="UR"
+                        BackgroundColor="{Binding EstURSelected, Converter={StaticResource BoolToColorConverter}}" 
+                        TextColor="#a855f7" FontSize="12" FontAttributes="Bold" HeightRequest="36" CornerRadius="6" Padding="12,0"/>
+
+                <!-- Bouton Super Rare (SR - Bleu) -->
+                <Button Text="SR" Command="{Binding BasculerFiltreCommand}" CommandParameter="SR"
+                        BackgroundColor="{Binding EstSRSelected, Converter={StaticResource BoolToColorConverter}}" 
+                        TextColor="#3b82f6" FontSize="12" FontAttributes="Bold" HeightRequest="36" CornerRadius="6" Padding="12,0"/>
+
+                <!-- Bouton Rare (R - Vert) -->
+                <Button Text="R" Command="{Binding BasculerFiltreCommand}" CommandParameter="R"
+                        BackgroundColor="{Binding EstRSelected, Converter={StaticResource BoolToColorConverter}}" 
+                        TextColor="#22c55e" FontSize="12" FontAttributes="Bold" HeightRequest="36" CornerRadius="6" Padding="12,0"/>
+
+                <!-- Bouton Peu Commune (PC - Blanc) -->
+                <Button Text="PC" Command="{Binding BasculerFiltreCommand}" CommandParameter="PC"
+                        BackgroundColor="{Binding EstPCSelected, Converter={StaticResource BoolToColorConverter}}" 
+                        TextColor="#ffffff" FontSize="12" FontAttributes="Bold" HeightRequest="36" CornerRadius="6" Padding="12,0"/>
+
+                <!-- Bouton Commune (C - Gris) -->
+                <Button Text="C" Command="{Binding BasculerFiltreCommand}" CommandParameter="C"
+                        BackgroundColor="{Binding EstCSelected, Converter={StaticResource BoolToColorConverter}}" 
+                        TextColor="#9ca3af" FontSize="12" FontAttributes="Bold" HeightRequest="36" CornerRadius="6" Padding="12,0"/>
+
+            </HorizontalStackLayout>
+        </ScrollView>
+
+        <!-- 3. PAGINATION -->
+        <Grid Grid.Row="2" ColumnDefinitions="Auto, *, Auto" Margin="15,0,15,15" VerticalOptions="Center">
+            <Button Grid.Column="0" Text="← Précédent" Command="{Binding PagePrecedenteCommand}" BackgroundColor="Transparent" TextColor="#888888" FontSize="13" />
+            <Label Grid.Column="1" Text="{Binding PageInfo}" TextColor="#888888" FontSize="13" HorizontalOptions="Center" VerticalOptions="Center" />
+            <Button Grid.Column="2" Text="Suivant →" Command="{Binding PageSuivanteCommand}" BackgroundColor="#222222" TextColor="White" CornerRadius="6" FontSize="13" Padding="15,5" />
+        </Grid>
+
+        <!-- 4. GRILLE DES CARTES OU MESSAGE VIDE -->
+        <Grid Grid.Row="3">
+
+            <!-- Message si aucune carte ne correspond -->
+            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="10" IsVisible="{Binding PasDeResultat}">
+                <Label Text="🚗" FontSize="40" HorizontalOptions="Center" />
+                <Label Text="Aucune carte trouvée pour cette recherche ou ce filtre." TextColor="#888888" FontSize="14" HorizontalOptions="Center" />
+            </VerticalStackLayout>
+
+            <!-- Collection des cartes -->
+            <CollectionView ItemsSource="{Binding CartesFiltrees}" Margin="10,0,10,0" IsVisible="{Binding ADesResultats}">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="10" VerticalItemSpacing="10" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border BackgroundColor="#1a1a1a" Stroke="{Binding CouleurRarete}" StrokeThickness="1.5">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12" />
+                            </Border.StrokeShape>
+                            <Grid RowDefinitions="120, Auto">
+
+                                <!-- Image & Badge de rareté -->
+                                <Grid Grid.Row="0">
+                                    <Image Source="{Binding ImageUrl}" Aspect="AspectFill" />
+                                    <Border BackgroundColor="{Binding CouleurRarete}" StrokeThickness="0" HorizontalOptions="Start" VerticalOptions="Start" Margin="8" Padding="8,4">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="4" />
+                                        </Border.StrokeShape>
+                                        <Label Text="{Binding RareteCode}" TextColor="Black" FontAttributes="Bold" FontSize="11" />
+                                    </Border>
+                                </Grid>
+
+                                <!-- Infos de la voiture -->
+                                <VerticalStackLayout Grid.Row="1" Padding="10" Spacing="2">
+                                    <Label Text="{Binding Marque}" TextColor="White" FontSize="14" FontAttributes="Bold" />
+                                    <Label Text="{Binding Modele}" TextColor="#cccccc" FontSize="12" />
+                                    <Label Text="{Binding Categorie}" TextColor="#888888" FontSize="10" Margin="0,0,0,5" />
+                                </VerticalStackLayout>
+
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </Grid>
+
+    </Grid>
+</ContentPage>

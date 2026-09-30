@@ -1,0 +1,68 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AutoMasters.Vues.ConnexionPage"
+             BackgroundColor="#121212">
+
+    <!-- J'ai retiré le bloc BindingContext qui faisait planter le XAML -->
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30,60,30,30" Spacing="0" VerticalOptions="Center">
+
+            <!-- Logo et Halo lumineux -->
+            <Grid HeightRequest="100" WidthRequest="100" HorizontalOptions="Center" Margin="0,0,0,25">
+                <BoxView Color="#ef4444" Opacity="0.15" CornerRadius="50" Scale="1.5" />
+                <Border Stroke="#ef4444" StrokeThickness="1" BackgroundColor="Transparent" Padding="25">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="16" />
+                    </Border.StrokeShape>
+                    <!-- Utilisation d'une icône de volant/voiture stylisée -->
+                    <Label Text="🚘" FontSize="36" HorizontalOptions="Center" VerticalOptions="Center" TextColor="#ef4444" />
+                </Border>
+            </Grid>
+
+            <!-- Titre -->
+            <Label HorizontalOptions="Center" Margin="0,0,0,10">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="AUTO" TextColor="White" FontSize="28" FontAttributes="Bold" CharacterSpacing="2" />
+                        <Span Text="MASTERS" TextColor="#ef4444" FontSize="28" FontAttributes="Bold" CharacterSpacing="2" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <Label Text="Collecte • Échange • Compétition" TextColor="#888888" FontSize="12" FontFamily="Monospace" HorizontalOptions="Center" Margin="0,0,0,40" />
+
+            <!-- Champ Email -->
+            <Label Text="ADRESSE EMAIL" TextColor="#888888" FontSize="11" FontAttributes="Bold" Margin="0,0,0,8" />
+            <Border BackgroundColor="#222222" StrokeThickness="0" HeightRequest="55" Margin="0,0,0,20">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12" />
+                </Border.StrokeShape>
+                <Entry Text="{Binding Email}" Keyboard="Email" TextColor="White" PlaceholderColor="#666666" Margin="15,0" />
+            </Border>
+
+            <!-- Champ Mot de passe -->
+            <Label Text="MOT DE PASSE" TextColor="#888888" FontSize="11" FontAttributes="Bold" Margin="0,0,0,8" />
+            <Border BackgroundColor="#222222" StrokeThickness="0" HeightRequest="55" Margin="0,0,0,15">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12" />
+                </Border.StrokeShape>
+                <Entry Text="{Binding MotDePasse}" IsPassword="True" TextColor="White" PlaceholderColor="#666666" Margin="15,0" />
+            </Border>
+
+            <Label Text="{Binding ErrorMessage}" TextColor="#ef4444" IsVisible="{Binding AfficheErreur}" HorizontalOptions="Center" Margin="0,0,0,15" />
+
+            <!-- Bouton Connexion -->
+            <Button Text="SE CONNECTER" Command="{Binding SeConnecterCommand}" BackgroundColor="#ef4444" TextColor="White" HeightRequest="55" CornerRadius="12" FontAttributes="Bold" FontSize="16" Margin="0,0,0,25">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding IsLoading}" Value="True">
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+
+            <ActivityIndicator IsRunning="True" Color="#ef4444" IsVisible="{Binding IsLoading}" HorizontalOptions="Center" Margin="0,0,0,25" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

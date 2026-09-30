@@ -1,0 +1,63 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="AutoMasters.Vues.CataloguePage"
+             Title="Catalogue des Voitures">
+
+    <VerticalStackLayout Padding="14" Spacing="15">
+
+        <!-- Barre de recherche et Filtre -->
+        <Grid ColumnDefinitions="*, Auto" ColumnSpacing="10">
+            <SearchBar Grid.Column="0" 
+                       Placeholder="Ex: Nissan, V8..." 
+                       Text="{Binding Recherche}" 
+                       SearchCommand="{Binding ChargerCommand}"/>
+
+            <Picker Grid.Column="1" 
+                    Title="Rareté" 
+                    ItemsSource="{Binding FiltresRarete}"
+                    SelectedItem="{Binding RareteSelectionnee}"
+                    WidthRequest="130" />
+        </Grid>
+
+        <!-- Bouton pour forcer le rafraîchissement avec les filtres -->
+        <Button Text="Filtrer" Command="{Binding ChargerCommand}" HeightRequest="45" CornerRadius="8" BackgroundColor="#10b981"/>
+
+        <!-- États de vue (Chargement / Vide) -->
+        <ActivityIndicator IsRunning="True" IsVisible="{Binding IsLoading}" HorizontalOptions="Center" Margin="0,40" Color="#34d399"/>
+        <Label Text="Aucun véhicule ne correspond à votre recherche." IsVisible="{Binding IsEmpty}" HorizontalOptions="Center" Margin="0,40" TextColor="Gray"/>
+
+        <!-- Liste des véhicules (Masquée pendant le chargement) -->
+        <CollectionView ItemsSource="{Binding Vehicules}"
+                        SelectionMode="Single"
+                        SelectionChanged="OnVehiculeSelectionChanged">
+            <CollectionView.Triggers>
+                <DataTrigger TargetType="CollectionView" Binding="{Binding IsLoading}" Value="True">
+                    <Setter Property="IsVisible" Value="False" />
+                </DataTrigger>
+            </CollectionView.Triggers>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="0,6" Padding="10" BackgroundColor="{StaticResource CardColor}" StrokeThickness="1" Stroke="#222">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                        </Border.StrokeShape>
+                        <Grid ColumnDefinitions="110,*" RowDefinitions="Auto,Auto,Auto,Auto" ColumnSpacing="15">
+
+                            <Image Grid.RowSpan="4" Source="{Binding ImageUrl}" Aspect="AspectFill" HeightRequest="105" WidthRequest="100"/>
+
+                            <Label Grid.Column="1" Text="{Binding Marque}" FontSize="13" TextColor="{StaticResource MutedColor}"/>
+                            <Label Grid.Row="1" Grid.Column="1" Text="{Binding Modele}" FontSize="20" FontAttributes="Bold"/>
+
+                            <!-- Affichage de la rareté et du prix -->
+                            <Label Grid.Row="2" Grid.Column="1" Text="{Binding Rarete}" FontSize="12" TextColor="Gold" FontAttributes="Italic"/>
+                            <Label Grid.Row="3" Grid.Column="1" Text="{Binding Prix, StringFormat='{}{0:N0} €'}" FontSize="18" TextColor="#34d399" FontAttributes="Bold" Margin="0,5,0,0"/>
+
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </VerticalStackLayout>
+</ContentPage>

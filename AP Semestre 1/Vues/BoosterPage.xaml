@@ -1,0 +1,79 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AutoMasters.Vues.BoosterPage"
+             BackgroundColor="#0a0a0a"
+             Title="Booster">
+
+    <Grid>
+        <!-- LOADER PENDANT L'OUVERTURE -->
+        <VerticalStackLayout VerticalOptions="Center" IsVisible="{Binding IsLoading}">
+            <ActivityIndicator IsRunning="True" Color="#ef4444" HorizontalOptions="Center" />
+        </VerticalStackLayout>
+
+        <!-- CONTENU DU BOOSTER -->
+        <VerticalStackLayout Padding="10,40,10,20" IsVisible="{Binding HasCurrentCard}" Spacing="20">
+
+            <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                <Label HorizontalOptions="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="BOOSTER " TextColor="White" FontSize="26" FontAttributes="Bold" />
+                            <Span Text="AUTOMASTERS" TextColor="#ef4444" FontSize="26" FontAttributes="Bold" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label Text="{Binding TexteProgression}" TextColor="#888888" FontSize="12" FontFamily="Monospace" HorizontalOptions="Center" Margin="0,10,0,0"/>
+            </VerticalStackLayout>
+
+            <!-- 1. LA CARTE (Taille fixe pour mobile) -->
+            <Border x:Name="CarteFace" HeightRequest="420" WidthRequest="300" BackgroundColor="#222222" Stroke="#333333" StrokeThickness="1" HorizontalOptions="Center" Margin="0,15,0,15">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="16" />
+                </Border.StrokeShape>
+                <Grid RowDefinitions="*, 140">
+                    <Image Grid.Row="0" Source="{Binding CarteActuelle.Vehicule.ImageUrl}" Aspect="AspectFill" />
+                    <VerticalStackLayout Grid.Row="1" Padding="15" BackgroundColor="#2a2a2a" Spacing="5">
+                        <Label Text="{Binding CarteActuelle.Vehicule.Marque}" TextColor="White" FontSize="22" FontAttributes="Bold" />
+                        <Label Text="{Binding CarteActuelle.Vehicule.Modele}" TextColor="#aaaaaa" FontSize="14" />
+                        <Label Text="2023" TextColor="#aaaaaa" FontSize="12" Margin="0,0,0,10" />
+
+                        <Grid ColumnDefinitions="*,*">
+                            <Border Grid.Column="0" BackgroundColor="Transparent" Stroke="#555555" StrokeThickness="1" HorizontalOptions="Start" Padding="10,5">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="4" />
+                                </Border.StrokeShape>
+                                <Label Text="COMMUNE" TextColor="#aaaaaa" FontSize="10" FontAttributes="Bold" />
+                            </Border>
+                            <Label Grid.Column="1" Text="{Binding CarteActuelle.Vehicule.Prix, StringFormat='{}{0:N0} €'}" TextColor="White" FontSize="16" FontAttributes="Bold" HorizontalOptions="End" VerticalOptions="Center" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <!-- 2. LES FLÈCHES SOUS LA CARTE -->
+            <Grid ColumnDefinitions="*, *" WidthRequest="300" HorizontalOptions="Center" Margin="0,0,0,15">
+
+                <!-- Flèche Précédent (En bas à gauche) -->
+                <Button Grid.Column="0" Text="◀ Précédent" BackgroundColor="Transparent" TextColor="#ef4444" FontSize="16" FontAttributes="Bold" Clicked="OnPrecedentClicked" HorizontalOptions="Start" IsVisible="{Binding PeutAllerPrecedent}" />
+
+                <!-- Flèche Suivante (En bas à droite) -->
+                <Button Grid.Column="1" Text="Suivante ▶" BackgroundColor="Transparent" TextColor="#ef4444" FontSize="16" FontAttributes="Bold" Clicked="OnSuivantClicked" HorizontalOptions="End" IsVisible="{Binding NEstPasDerniereCarte}" />
+
+            </Grid>
+
+            <!-- BOUTON TERMINER (Visible uniquement sur la 5ème carte) -->
+            <Button Text="TERMINER" 
+                    Clicked="OnTerminerClicked" 
+                    IsVisible="{Binding EstDerniereCarte}"
+                    BackgroundColor="#ef4444" 
+                    TextColor="White" 
+                    HeightRequest="60" 
+                    WidthRequest="300"
+                    HorizontalOptions="Center"
+                    CornerRadius="12" 
+                    FontAttributes="Bold" 
+                    FontSize="18" />
+
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

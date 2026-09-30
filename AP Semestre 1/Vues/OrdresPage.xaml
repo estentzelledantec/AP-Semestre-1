@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AutoMasters.Vues.OrdresPage"
+             Title="Ordres conditionnels"
+             BackgroundColor="#121212">
+    <VerticalStackLayout Padding="24" Spacing="12"
+                         VerticalOptions="Center"
+                         HorizontalOptions="Center">
+        <Label Text="Ordres conditionnels"
+               FontSize="24"
+               FontAttributes="Bold"
+               HorizontalOptions="Center" />
+        <Label Text="Aucun ordre conditionnel n'est enregistré pour le moment."
+               TextColor="#aaaaaa"
+               HorizontalTextAlignment="Center" />
+    </VerticalStackLayout>
+</ContentPage>

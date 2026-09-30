@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="AutoMasters.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:AutoMasters.Vues"
+    Title="AutoMasters"
+    FlyoutBehavior="Flyout">
+
+    <FlyoutItem Title="Accueil" Route="home">
+        <ShellContent Title="Accueil" Route="MainPage"
+                      ContentTemplate="{DataTemplate views:AccueilPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Catalogue" Route="catalogue">
+        <ShellContent Title="Catalogue" Route="CataloguePage"
+                      ContentTemplate="{DataTemplate views:CataloguePage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Collection" Route="collection">
+        <ShellContent Title="Collection" Route="CollectionPage"
+                      ContentTemplate="{DataTemplate views:CollectionPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Mes cartes" Route="cartes">
+        <ShellContent Title="Mes cartes" Route="CartesPage"
+                      ContentTemplate="{DataTemplate views:CartesPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Marché" Route="marche">
+        <ShellContent Title="Marché" Route="MarchePage"
+                      ContentTemplate="{DataTemplate views:MarchePage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Ordres" Route="ordres">
+        <ShellContent Title="Ordres" Route="OrdresPage"
+                      ContentTemplate="{DataTemplate views:OrdresPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Connexion" Route="connexion">
+        <ShellContent Title="Connexion" Route="ConnexionPage"
+                      ContentTemplate="{DataTemplate views:ConnexionPage}" />
+    </FlyoutItem>
+
+</Shell>
